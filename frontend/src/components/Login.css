@@ -1,0 +1,104 @@
+/* Wrapper for centering the login box */
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #d4fc79, #96e6a1);
+    font-family: "Poppins", sans-serif;
+  }
+  
+  /* Login Box */
+  .login-box {
+    background: white;
+    padding: 2rem;
+    width: 350px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+  }
+  
+  /* Heading */
+  .login-box h2 {
+    font-size: 2rem;
+    color: #2c7a2c;
+    margin-bottom: 1rem;
+  }
+  
+  /* Error Message */
+  .error {
+    color: #e74c3c;
+    background: rgba(231, 76, 60, 0.2);
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  /* Input Fields */
+  .input-group {
+    margin-bottom: 1rem;
+  }
+  
+  .input-group input {
+    width: 95%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .input-group input:focus {
+    border-color: #2c7a2c;
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(44, 122, 44, 0.3);
+  }
+  
+  /* Login Button */
+  .login-btn {
+    width: 100%;
+    padding: 12px;
+    background: #2c7a2c;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .login-btn:hover {
+    background: #256b25;
+  }
+  
+  /* Register Link */
+  .register-link {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .register-link a {
+    color: #2c7a2c;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .register-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Fade-in Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
