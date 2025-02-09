@@ -26,14 +26,23 @@
     margin-bottom: 1rem;
   }
   
+  /* Message Box */
+  .message {
+    margin: 1rem 0;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .success {
+    background: rgba(46, 204, 113, 0.2);
+    color: #2ecc71;
+  }
+
   /* Error Message */
   .error {
     color: #e74c3c;
     background: rgba(231, 76, 60, 0.2);
-    padding: 8px;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    font-weight: 600;
   }
   
   /* Input Fields */

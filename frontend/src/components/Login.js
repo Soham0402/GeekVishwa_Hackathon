@@ -6,13 +6,13 @@ import "./Login.css"; // ✅ Import external CSS file
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); // ✅ Defined correctly
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     if (location.state?.successMessage) {
-      setError(location.state.successMessage); // ✅ Show success message if redirected from Register
+      setMessage(location.state.successMessage); // ✅ Show success message if redirected from Register
     }
   }, [location]);
 
@@ -20,10 +20,10 @@ const Login = () => {
     e.preventDefault();
     try {
       await axios.post("http://127.0.0.1:5000/login", { email, password });
-      setError("✅ Login successful! Redirecting to Home...");
-      setTimeout(() => navigate("/home"), 2000); // ✅ Redirect to Home after 2s
+      setMessage("✅ Login successful! Redirecting to Home...");
+      setTimeout(() => navigate("/dashboard"), 2000); // ✅ Redirect to Home after 2s
     } catch (err) {
-      setError("❌ Invalid email or password.");
+      setMessage("❌ Invalid email or password.");
     }
   };
 
@@ -31,7 +31,8 @@ const Login = () => {
     <div className="wrapper">
       <div className="login-box">
         <h2>Login</h2>
-        {error && <p className="error">{error}</p>}
+        {message && <p className={`message ${message.includes("successful") ? "success" : "error"}`}>{message}</p>}
+
         <form onSubmit={handleLogin}>
           <div className="input-group">
             <input

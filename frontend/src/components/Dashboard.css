@@ -1,0 +1,197 @@
+/* ✅ General Layout */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    font-family: "Poppins", sans-serif;
+    background: #e8f5e9;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease, width 0.3s ease;
+  }
+  
+  /* ✅ When Sidebar Opens, Shrink Dashboard */
+  .sidebar-open .dashboard-content {
+    margin-left: 250px; /* ✅ Shift Content Right When Sidebar Opens */
+  }
+  
+  /* ✅ Navbar (Fixed at Top) */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #004d00;
+    color: white;
+    padding: 10px 25px;  /* ✅ Adjusted for Better Alignment */
+    font-size: 1.2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 97%;
+    z-index: 1000;
+    height: 40px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 20px;
+    font-size: 1rem;
+  }
+  
+  .nav-links span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  .nav-links span:hover {
+    color: #66ff66;
+  }
+  
+  /* ✅ Sidebar (Expands on Click & Pushes Content) */
+  .sidebar {
+    width: 230px;
+    height: 100vh;
+    background: #008000;
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 60px; /* 📌 Placed Below Navbar */
+    padding: 20px;
+    box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  .sidebar .close-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    float: right;
+  }
+  
+  .sidebar img.profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 20px 0;
+  }
+  
+  /* ✅ Dashboard Content */
+  .dashboard-content {
+    margin-top: 80px;
+    padding: 20px;
+    text-align: center;
+  }
+  
+/* ✅ Card Grid - Centered & Increased Spacing */
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* ✅ Ensures Cards Stay Centered */
+    align-items: center;
+    gap: 40px; /* ✅ Increased Space Between Cards */
+    margin-top: 40px;
+    max-width: 1000px; /* ✅ Prevents Stretching Too Wide */
+    margin-left: auto;
+    margin-right: auto; /* ✅ Centers the Grid */
+  }
+  
+  /* ✅ Card Styling */
+  .card {
+    width: 260px; /* ✅ Slightly Bigger for Better Balance */
+    height: 170px; /* ✅ Increased Height */
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 3px solid transparent;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 8px 20px rgba(0, 128, 0, 0.4);
+    border-color: #008000;
+  }
+  
+  .icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: #008000;
+  }
+  
+  /* ✅ Responsive Fix - 3 Cards on Top, 2 on Bottom */
+  @media (max-width: 1024px) {
+    .card-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 80px;  /* ✅ Keep proper spacing */
+        max-width: 800px !important;  /* ✅ Reduce grid width */
+        margin-left: auto;
+        margin-right: auto;
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    .card {
+      width: 160px !important;  /* ✅ Reduce more for tablets */
+      height: 140px !important;
+    }
+  }
+    
+  
+
+/* ✅ Plant Animation Container */
+.plant-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* ✅ Allows Clicking Through */
+    overflow: hidden;
+  }
+  
+  /* ✅ Individual Tree Animation */
+  .plant {
+    position: absolute;
+    width: 80px;  /* ✅ Larger Tree */
+    height: auto;
+    opacity: 0;
+    animation: growPlant 10s infinite ease-in-out;
+  }
+  
+  /* ✅ Keyframe Animation for Growing Trees */
+  @keyframes growPlant {
+    0% {
+      transform: scale(0.5);
+      opacity: 0;
+    }
+    30% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    80% {
+      transform: scale(1.3);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+
+
+  
+  
+  
+  
+  
+  
