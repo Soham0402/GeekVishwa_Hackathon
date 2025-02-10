@@ -5,6 +5,11 @@ import Register from "./components/Register";  // <-- Adjust path if necessary
 import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
 import CropRecommendation from "./components/Cards/CropRecommendation";
+import CropYield from "./components/Cards/CropYield";
+import News from "./components/Cards/News";
+import Market from "./components/Cards/Market";
+import Shop from "./components/Cards/Shop";
+import KnowledgeCorner from "./components/Cards/KnowledgeCorner";
 
 
 function App() {
@@ -19,6 +24,11 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/recommendation" element={<CropRecommendation />} />
+        <Route path="/yield" element={<CropYield />} />
+        <Route path="/news" element={<News />} />
+        <Route path="/market" element={<Market />} /> 
+        <Route path="/shop" element={<Shop />} /> 
+        <Route path="/knowledgeCorner" element={<KnowledgeCorner />} />
       </Routes>
     </Router>
   );

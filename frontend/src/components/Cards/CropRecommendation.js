@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import "./CropRecommendation.css";
 
 const backgroundStyle = {
-    backgroundImage: "url('/images/background.jpg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    height: "100vh",
-    width: "100%",
-  };
+  backgroundImage: "url('/images/background.jpg')",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  height: "100vh",
+  width: "100%",
+};
 
 const Container = styled.div`
   display: flex;
@@ -26,22 +26,6 @@ const FormSection = styled.div`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 `;
 
-/* ✅ NEW: Flex container for inputs */
-const InputContainer = styled.div`
-  display: flex; 
-  justify-content: space-between; 
-  flex-wrap: wrap;  /* Allows wrapping if screen is small */
-  width: 100%;
-`;
-
-/* ✅ Bold Label for Inputs */
-const Label = styled.label`
-  font-weight: bold;
-  display: block; /* Ensures label is above input */
-  margin-bottom: 5px;
-`;
-
-
 const ResultSection = styled.div`
   width: 45%;
   display: flex;
@@ -50,9 +34,9 @@ const ResultSection = styled.div`
   text-align: center;
 `;
 
-/* ✅ New Styled Box for Prediction */
+/* ✅ New Styled Box for Prediction with Three Crops */
 const PredictionBox = styled.div`
-  background: #d4edda;  /* Light green effect */
+  background: #d4edda; /* Light green effect */
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 128, 0, 0.3);
@@ -61,6 +45,37 @@ const PredictionBox = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+`;
+
+/* ✅ Styled container for three crops inside the PredictionBox */
+const CropList = styled.div`
+  display: flex;
+  flex-direction: column;  /* ✅ Vertically aligned crops */
+  align-items: center;
+  gap: 15px; /* ✅ Space between crops */
+`;
+
+/* ✅ Styled Crop Item */
+const CropItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: ${({ label }) =>
+    label === "Best" ? "#4CAF50" : label === "Better" ? "#FFC107" : "#FF5722"};
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  width: 90%;
+  justify-content: center;
+  text-align: center;
+`;
+
+/* ✅ Input Styles */
+const InputContainer = styled.div`
+  display: flex; 
+  justify-content: space-between; 
+  flex-wrap: wrap;  /* Allows wrapping if screen is small */
+  width: 100%;
 `;
 
 const Input = styled.input`
@@ -88,6 +103,8 @@ const Button = styled.button`
 
 const CropRecommendation = () => {
   const [formData, setFormData] = useState({
+    city: "",
+    state: "",
     nitrogen: "",
     phosphorus: "",
     potassium: "",
@@ -96,17 +113,36 @@ const CropRecommendation = () => {
     pH: "",
     rainfall: "",
   });
+  
+  const [recommendedCrops, setRecommendedCrops] = useState([]);
 
-  const [predictedCrop, setPredictedCrop] = useState(null);
+  useEffect(() => {
+    if (formData.city) {
+      fetch(`http://127.0.0.1:5000/weather?location=${formData.city}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("Weather API Response:", data); // ✅ Debugging output
+          if (!data.error) {
+            setFormData((prevData) => ({
+              ...prevData,
+              temperature: data.temperature.toFixed(2), // ✅ Ensure only 2 decimal places
+              humidity: data.humidity.toFixed(2),
+            }));
+          }
+        })
+        .catch((err) => console.error("Weather API Error:", err));
+    }
+  }, [formData.city]);
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Sending request:", JSON.stringify(formData));
-  
+
     try {
       const response = await fetch("http://127.0.0.1:5000/predict1", {
         method: "POST",
@@ -121,55 +157,70 @@ const CropRecommendation = () => {
           rainfall: Number(formData.rainfall),
         }),
       });
-  
+
       const data = await response.json();
       console.log("Received response:", data);
-      setPredictedCrop(data.crop);
+      if (data.top_crops && Array.isArray(data.top_crops)) {
+        setRecommendedCrops(data.top_crops);
+      } else {
+        setRecommendedCrops([]); // Handle case where no crops are returned
+      }
     } catch (error) {
       console.error("Prediction failed:", error);
     }
   };
-
+  
   return (
     <div style={backgroundStyle}>
-    <Container>
-      <FormSection>
-        <h2>Crop Recommendation System</h2>
-        <form onSubmit={handleSubmit}>
-        <InputContainer> {/* ✅ Wrap all inputs in a flex container */}
-        {Object.keys(formData).map((key, index) => (
-        <div key={index} style={{ width: "48%" }}> {/* ✅ Each input takes half-width */}
-            <Label>{key.charAt(0).toUpperCase() + key.slice(1)}:</Label> {/* ✅ Bold label */}
-            <Input
-            type="number"
-            name={key}
-            value={formData[key]}
-            onChange={handleChange}
-            placeholder={`Enter ${key}`}
-            required
-            />
-        </div>
-        ))}
-        </InputContainer>
-        <Button type="submit">Predict Crop</Button>
-        </form>
-      </FormSection>
+      <Container>
+        <FormSection>
+          <h2>Crop Recommendation System</h2>
+          <form onSubmit={handleSubmit}>
+            <InputContainer>
+              {Object.keys(formData).map((key, index) => (
+                <div key={index} style={{ width: "48%" }}>
+                  <label><b>{key.charAt(0).toUpperCase() + key.slice(1)}:</b></label>
+                  <Input
+                    type={key === "city" || key === "state" ? "text" : "number"}
+                    name={key}
+                    value={formData[key]}
+                    onChange={handleChange}
+                    placeholder={`Enter ${key}`}
+                    required={key !== "temperature" && key !== "humidity"}
+                    disabled={key === "temperature" || key === "humidity"} // ✅ Ensure these are visible but uneditable
+                  />
+                </div>
+              ))}
+            </InputContainer>
+            <Button type="submit">Predict Crop</Button>
+          </form>
+        </FormSection>
 
-      <ResultSection>
-        {predictedCrop && (
-          <PredictionBox>  {/* ✅ Wrapped in Light Green Box */}
-            <h3>Recommended Crop: {predictedCrop}</h3>
-            <img
-              src={`/images/${predictedCrop.toLowerCase()}.jpg`}
-              alt={predictedCrop}
-              className="crop-image"
-              onError={(e) => (e.target.src = "/images/default.png")}
-              style={{ width: "120px", height: "120px", borderRadius: "50%" }}  // ✅ Circular Image
-            />
-          </PredictionBox>
-        )}
-      </ResultSection>
-    </Container>
+        <ResultSection>
+          {recommendedCrops.length > 0 && (
+            <PredictionBox>
+              <h3>🌱 Recommended Crops</h3>
+              <CropList>
+                {recommendedCrops.map((crop, index) => (
+                  <CropItem key={index} label={crop.label}>
+                    <img
+                      src={`/images/${crop.name.toLowerCase()}.jpg`}
+                      alt={crop.name}
+                      className="crop-image"
+                      onError={(e) => (e.target.src = "/images/default.jpg")}
+                      style={{ width: "80px", height: "80px", borderRadius: "50%" }}
+                    />
+                    <div>
+                      <h4>{crop.label} Crop: {crop.name}</h4>
+                      <p>Confidence: {crop.confidence.toFixed(2)}%</p>
+                    </div>
+                  </CropItem>
+                ))}
+              </CropList>
+            </PredictionBox>
+          )}
+        </ResultSection>
+      </Container>
     </div>
   );
 };

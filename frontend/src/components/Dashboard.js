@@ -37,28 +37,6 @@
 //     }
 //   }, [transcript]);
 
-//   const fetchCropPrediction = async () => {
-//     try {
-//       const response = await axios.post("http://127.0.0.1:5000/predict", {
-//         weather: 25,
-//         soil_moisture: 35,
-//         location: 1
-//       });
-//       setCropPrediction(response.data.predicted_yield);
-//     } catch (error) {
-//       console.error("Error fetching AI predictions:", error);
-//     }
-//   };
-
-//   const fetchCropRecommendation = async () => {
-//     try {
-//       const response = await axios.post("http://127.0.0.1:5000/crop-recommendation", { location: 1 });
-//       setRecommendedCrops(response.data.recommended_crops);
-//     } catch (error) {
-//       console.error("Error fetching recommendations:", error);
-//     }
-//   };
-
 //   const fetchWeather = async () => {
 //     try {
 //       const response = await axios.get("http://127.0.0.1:5000/weather?location=Delhi");
@@ -134,9 +112,9 @@
 // export default Dashboard;
 import React, { useState } from "react";
 import { 
-  FaSeedling, FaRobot, FaStore, FaAward, FaChartBar, 
-  FaBars, FaHouse, FaComments,
-  FaRightFromBracket, FaXmark
+  FaSeedling, FaStore, FaAward, FaChartBar, 
+  FaBars, FaHouse, FaComments, FaArrowTrendUp,
+  FaRightFromBracket, FaXmark, FaNewspaper
 } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import "./Dashboard.css";
@@ -206,11 +184,12 @@ const Dashboard = () => {
         <h2>🚀 Explore CropSense AI Features</h2>
 
         <div className="card-grid">
-          <div className="card"><FaChartBar className="icon" /><p>Crop Yield</p></div>
+          <div className="card" onClick={() => navigate("/yield")}><FaChartBar className="icon" /><p>Crop Yield</p></div>
           <div className="card" onClick={() => navigate("/recommendation")}><FaSeedling className="icon" /><p>Crop Recommendation</p></div>
-          <div className="card"><FaRobot className="icon" /><p>Voice AI Assistant</p></div>
-          <div className="card"><FaStore className="icon" /><p>Market</p></div>
-          <div className="card"><FaAward className="icon" /><p>Gamification Badges</p></div>
+          <div className="card" onClick={() => navigate("/market")}><FaArrowTrendUp className="icon" /><p>Market</p></div>
+          <div className="card" onClick={() => navigate("/shop")}><FaStore className="icon" /><p>Shop</p></div>
+          <div className="card" onClick={() => navigate("/news")}><FaNewspaper className="icon" /><p>News</p></div>
+          <div className="card" onClick={() => navigate("/knowledgeCorner")}><FaAward className="icon" /><p>Knowledge Corner</p></div>
         </div>
       </main>
     </div>
